@@ -108,7 +108,7 @@ void calculate_prime_factors(int input_number, int *factors) {
 void print_prime_factorisation(const int *primes, const int *frequencies, const int max_size) {
     int size_primes = last_position_of(primes, max_size); // size_primes == size_frequencies
     
-    for (int i = 0; i < size_primes; i++) {
+    for (int i = 0; i <= size_primes; i++) {
         if(i > 0) {
             printf(" * ");
         }
