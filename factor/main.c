@@ -6,6 +6,7 @@
 //
 
 #include "main.h"
+#include "factor.h"
 
 int main(const int argc, const char * argv[]) {
     check_argument_count(argc);
@@ -15,8 +16,8 @@ int main(const int argc, const char * argv[]) {
     /*
     Why log_2(n) is the max number of possible prime numbers:
     
-     For any positive integer n, the maximum number of times it can be divided by the smallest prime, which is 2, is log_2⁡(n). This represents the worst-case scenario where n is a power of 2 and gives the upper limit for the number of prime factors n can have.
-     */
+    For any positive integer n, the maximum number of times it can be divided by the smallest prime, which is 2, is log_2⁡(n). This represents the worst-case scenario where n is a power of 2 and gives the upper limit for the number of prime factors n can have.
+    */
     
     int *factors = (int *)malloc(sizeof(int) * primes_max);
     if (!factors) {
@@ -47,62 +48,6 @@ int main(const int argc, const char * argv[]) {
     free(frequencies);
     
     return EXIT_SUCCESS;
-}
-
-int last_position_of(const int *array, const int size) {
-    int i = 0;
-    
-    for (; i < size; i++) {
-        if(array[i] == 0){
-            return i-1;
-        }
-    }
-    
-    exit(EXIT_FAILURE);
-}
-
-void calculate_prime_frequencies(const int *factors, int *primes, int *frequencies, int size) {
-    primes[0] = factors[0];
-    frequencies[0] = 1;
-    
-    for (int i = 1; i < size; i++) {
-        int last_prime_loc = last_position_of(primes, size);
-        int last_frequencies_loc = last_position_of(frequencies, size);
-        
-        if(factors[i] == 0) {
-            break;
-        }
-        if(factors[i] == primes[last_prime_loc]) {
-            frequencies[last_prime_loc] += 1;
-        }
-        else {
-            primes[last_prime_loc + 1] = factors[i];
-            frequencies[last_frequencies_loc + 1] = 1;
-        }
-    }
-}
-
-
-void calculate_prime_factors(int input_number, int *factors) {
-    /*
-    Handling of negative numbers:
-    
-     Negative numbers don't traditionally have prime factorizations. However, one can represent the factorization of a negative number by starting with a factor of -1, followed by the prime factorization of its positive counterpart.
-     */
-    int divisor = 2;
-    int i = 0;
-    
-    while (input_number > 1) {
-        if (input_number % divisor == 0) {
-            
-            input_number /= divisor;
-            factors[i] = divisor;
-            i++;
-            
-        } else {
-            divisor++;
-        }
-    }
 }
 
 void print_prime_factorisation(const int *primes, const int *frequencies, const int max_size) {
